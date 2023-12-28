@@ -1,9 +1,65 @@
-import { BaggageClaim, BarChart4, Cable, ChevronLeft, Files, Home, ShoppingBag, ShoppingBasket, ShoppingCart } from 'lucide-react'
+import { BaggageClaim, BarChart4, Cable, ChevronLeft, Files, Home, PlusCircle, ShoppingBag, ShoppingBasket, ShoppingCart } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import SubscriptionCard from './SubscriptionCard'
+import SidebarDropdownLink from './SidebarDropdownLink'
+  
 
 export default function Sidebar() {
+
+    const inventoryLinks=[
+        {
+            title: "Items",
+            href:"/dashboard/inventory"
+        },
+        {
+            title: "Item Groups",
+            href:"/dashboard/inventory"
+        },
+        {
+            title: "Inventory Adjustments",
+            href:""
+        },
+    ]
+    const salesLinks=[
+        {
+            title: "Customers",
+            href:"#"
+        },
+        {
+            title: "Sales Orders",
+            href:"#"
+        },
+        {
+            title: "Packages",
+            href:""
+        },
+        {
+            title: "Shipments",
+            href:"#"
+        },
+        {
+            title: "Invoices",
+            href:"#"
+        },
+        {
+            title: "Sales Receipts",
+            href:"#"
+        },
+        {
+            title: "Payment Received",
+            href:"#"
+        },
+        {
+            title: "Sales Returns",
+            href:"#"
+        },
+        {
+            title: "Credit Notes",
+            href:"#"
+        },
+    ]
+
   return (
     <div className='w-60 min-h-screen bg-slate-800 text-slate-50 justify-between fixed'>
         {/* Top Part */}
@@ -16,19 +72,21 @@ export default function Sidebar() {
             {/* links */}
 
             <nav className='flex flex-col gap-3 px-3 py-6'>
-                <Link href="#" className='flex items-center space-x-2 bg-blue-600
+                <Link href="/dashboard/home/overview" className='flex items-center space-x-2 bg-blue-600
                 text-slate-50 p-2 rounded-md'>
                     <Home className='w-4 h-4'/>
                     <span>Home</span>
                 </Link>
-                <button className='p-2 flex items-center space-x-2' href=''>
-                    <BaggageClaim className='w-4 h-4'/>
-                    <span>Inventory</span>
-                </button>
-                <button className='p-2 flex items-center space-x-2' href=''>
-                    <ShoppingBag className='w-4 h-4'/>
-                    <span>Sales</span>
-                </button>
+
+                <SidebarDropdownLink 
+                items={inventoryLinks} title="Inventory"
+                icon={BaggageClaim}/>    
+
+                <SidebarDropdownLink 
+                items={salesLinks} title="Sales"
+                icon={ShoppingBag}/>           
+                
+                
                 <button className='p-2 flex items-center space-x-2' href=''>
                     <ShoppingBasket className='w-4 h-4'/>
                     <span>Purchases</span>
