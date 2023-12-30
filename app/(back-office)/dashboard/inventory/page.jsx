@@ -1,6 +1,6 @@
 import FixedHeader from '@/components/dashboard/FixedHeader'
 import OptionCard from '@/components/dashboard/OptionCard'
-import { Boxes, Component, ScrollText, Shirt } from 'lucide-react'
+import { Boxes, Component, ScrollText, Shirt, Warehouse } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -8,36 +8,44 @@ export default function Inventory() {
 
   const optionCards=[
     {
-      title: "Item groups",
-      description: "Create multiple variants of the same item using Item Groups",
-      link: "/new",
-      linkTitle: "New Item Group",
-      enabled: true,
-      icon: Boxes,
-    },
-    {
       title: "Items",
       description: "Create standalone items and services that you buy and sell",
-      link: "/new",
+      link: "/dashboard/inventory/items/new",
       linkTitle: "New Item",
       enabled: true,
       icon: Shirt,
     },
     {
-      title: "Composite Items",
+      title: "Categories",
       description: "Bundle different items together and sell them as kits",
-      link: "/new",
-      linkTitle: "New Composite Item",
-      enabled: false,
-      icon: Component,
+      link: "/dashboard/inventory/categories/new",
+      linkTitle: "New Category",
+      enabled: true,
+      icon: Boxes,
     },
     {
-      title: "Price Lists",
+      title: "Brands",
       description: "Tweak your item prices for specific contacts or transactions",
-      link: "/new",
-      linkTitle: "New Item",
-      enabled: false,
+      link: "/dashboard/inventory/brands/new",
+      linkTitle: "New Brand",
+      enabled: true,
       icon: ScrollText,
+    },
+    {
+      title: "Warehouse",
+      description: "Tweak your item prices for specific contacts or transactions",
+      link: "/dashboard/inventory/warehouse/new",
+      linkTitle: "New Warehouse",
+      enabled: true,
+      icon: Warehouse,
+    },
+    {
+      title: "Units",
+      description: "Tweak your item prices for specific contacts or transactions",
+      link: "/dashboard/inventory/units/new",
+      linkTitle: "New Unit",
+      enabled: true,
+      icon: Component,
     },
   ]
   return (
