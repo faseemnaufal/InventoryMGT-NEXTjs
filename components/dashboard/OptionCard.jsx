@@ -12,7 +12,7 @@ export default function OptionCard({optionData}) {
           justify-center gap-4 p-6 rounded">
           <h2 className='text-xl font-semibold'>{title}</h2>
           <div className="">
-            <Icon className='w-36 h-36' strokeWidth="0.5px"/>
+            <Icon className='w-32 h-32' strokeWidth="0.5px"/>
           </div>
           <p className="line-clamp-1">
             {description}
