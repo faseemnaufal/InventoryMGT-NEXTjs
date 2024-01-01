@@ -3,6 +3,7 @@ import SelectInput from '@/components/FormInputs/SelectInput'
 import SubmitButton from '@/components/FormInputs/SubmitButton'
 import TextInput from '@/components/FormInputs/TextInput'
 import TextareaInput from '@/components/FormInputs/TextareaInput'
+import { makePostRequest } from '@/lib/apiRequest'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -11,7 +12,7 @@ export default function TransferInventoryForm() {
   const branches =[
     {
       label: "Branch A",
-      value: "brncha"
+      value: "brancha"
     },
     {
       label: "Branch B",
@@ -20,6 +21,20 @@ export default function TransferInventoryForm() {
     {
       label: "Branch C",
       value: "branchc"
+    },
+  ]
+  const items =[
+    {
+      label: "Item A",
+      value: "itema"
+    },
+    {
+      label: "Item B",
+      value: "itemb"
+    },
+    {
+      label: "Item C",
+      value: "itemc"
     },
   ]
 
@@ -34,26 +49,13 @@ export default function TransferInventoryForm() {
 
   async function onSubmit(data){
     console.log(data)
-    setLoading(true)
-    const baseUrl = "http://localhost:3000"
-    try {
-      const response = await fetch(`${baseUrl}/api/adjustments/transfer`,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(data)
-      })
-      if(response.ok){
-        console.log(response)
-        setLoading(false)
-        reset()
-      }
-      
-    } catch (error) {
-      setLoading(false)
-      console.log(error)
-    }
+    makePostRequest(
+      setLoading,
+      "/api/adjustments/transfer",
+      data,
+      "Stock Adjustment",
+      reset
+    )
   }
 
   return (
@@ -64,10 +66,27 @@ export default function TransferInventoryForm() {
        
         <TextInput 
           type='number'
+          label="Reference Number" 
+          name="referenceNumber"
+          register={register} 
+          errors={errors} 
+        />
+
+        <SelectInput 
+          name="itemId" 
+          label="Select the Item" 
+          register={register} 
+          className='w-full' 
+          options={items}
+       />
+
+        <TextInput 
+          type='number'
           label="Enter Quantity of Stocks to Transfer" 
           name="transferStockQty"
           register={register} 
-          errors={errors} 
+          errors={errors}
+          className='w-full' 
         />
 
         <SelectInput 

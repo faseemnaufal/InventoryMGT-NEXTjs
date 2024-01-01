@@ -1,6 +1,6 @@
 import FixedHeader from '@/components/dashboard/FixedHeader'
 import OptionCard from '@/components/dashboard/OptionCard'
-import { Boxes, LayoutGrid, LayoutPanelTop, Scale, ShoppingBagIcon, Warehouse } from 'lucide-react'
+import { Boxes, LayoutGrid, LayoutPanelTop, Scale, ShoppingBagIcon, User, Warehouse } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -48,6 +48,14 @@ export default function Inventory() {
       icon: Scale,
     },
     {
+      title: "Suppliers",
+      description: "Tweak your item prices for specific contacts or transactions",
+      link: "/dashboard/inventory/suppliers/new",
+      linkTitle: "New Supplier",
+      enabled: true,
+      icon: User,
+    },
+    {
       title: "Inventory Adjustment",
       description: "Transfer stock from the main warehouse",
       link: "/dashboard/inventory/adjustments/new",
@@ -73,21 +81,3 @@ export default function Inventory() {
   )
 }
 
-
-{/* <div className="shadow-md bg-white flex flex-col items-center
-          justify-center gap-4 p-6 rounded">
-          <h1>Item Groups</h1>
-          <div className="">
-            <Shirt className='w-36 h-36' strokeWidth="0.5px"/>
-          </div>
-          <p className="line-clamp-1">
-            Create multiple variants of the same item
-            using Item Groups
-          </p>
-          <Link href="#" className='py-2 rounded-sm bg-blue-600
-            inline-flex items-center px-3 space-x-2 text-white'>
-            New Item Group
-          </Link>
-          {/* <button className='py-2 rounded-sm bg-blue-600
-            inline-flex items-center px-3 space-x-2 text-white'>Enable</button> */}
-        // </div> */}

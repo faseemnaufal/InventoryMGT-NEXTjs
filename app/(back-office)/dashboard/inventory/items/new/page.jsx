@@ -5,6 +5,7 @@ import SubmitButton from '@/components/FormInputs/SubmitButton'
 import TextInput from '@/components/FormInputs/TextInput'
 import TextareaInput from '@/components/FormInputs/TextareaInput'
 import FormHeader from '@/components/dashboard/FormHeader'
+import { makePostRequest } from '@/lib/apiRequest'
 import { UploadButton, UploadDropzone } from '@/lib/uploadthing'
 import { Pencil, Plus, X } from 'lucide-react'
 import Image from 'next/image'
@@ -79,26 +80,13 @@ export default function NewItem() {
   async function onSubmit(data){
     data.imageUrl=imageUrl
     console.log(data)
-    setLoading(true)
-    const baseUrl = "http://localhost:3000"
-    try {
-      const response = await fetch(`${baseUrl}/api/items`,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
-        },
-        body:JSON.stringify(data)
-      })
-      if(response.ok){
-        console.log(response)
-        setLoading(false)
-        reset()
-      }
-      
-    } catch (error) {
-      setLoading(false)
-      console.log(error)
-    }
+    makePostRequest(
+      setLoading,
+      "/api/items",
+      data,
+      "Item",
+      reset
+    )
   }
 
   return (
