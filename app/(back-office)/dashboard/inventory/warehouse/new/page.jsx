@@ -15,12 +15,12 @@ export default function NewWarehouse() {
 
   const selectOptions =[
     {
-      label: "Main",
-      value: "main"
+      title: "Main",
+      id: "main"
     },
     {
-      label: "Branch",
-      value: "branch"
+      title: "Branch",
+      id: "branch"
     },
   ]
 
@@ -48,7 +48,7 @@ export default function NewWarehouse() {
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Warehouse" href="/dashboard/inventory"/>
+      title="New Warehouse" href="/dashboard/inventory/warehouse"/>
       {/* Form */}
       <form 
         onSubmit={handleSubmit(onSubmit)} 

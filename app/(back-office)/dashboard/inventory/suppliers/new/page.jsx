@@ -46,7 +46,7 @@ export default function NewSupplier() {
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Supplier" href="/dashboard/inventory"/>
+      title="New Supplier" href="/dashboard/inventory/suppliers"/>
       {/* Form */}
       <form 
         onSubmit={handleSubmit(onSubmit)} 
@@ -55,7 +55,7 @@ export default function NewSupplier() {
 
         <TextInput 
           label="Supplier Name" 
-          name="name"
+          name="title"
           register={register} 
           errors={errors} 
           className='w-full'

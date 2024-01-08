@@ -36,7 +36,7 @@ export default function NewUnit() {
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Unit" href="/dashboard/inventory"/>
+      title="New Unit" href="/dashboard/inventory/units"/>
       {/* Form */}
       <form 
         onSubmit={handleSubmit(onSubmit)} 

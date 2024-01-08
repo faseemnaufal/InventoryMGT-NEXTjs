@@ -3,11 +3,11 @@ import { NextResponse } from "next/server"
 
 export async function POST(request){
     try {
-        const {name,phone,email,address,contactPerson,supplierCode,taxID,paymentTerms,notes} = await request.json()
+        const {title,phone,email,address,contactPerson,supplierCode,taxID,paymentTerms,notes} = await request.json()
         
         const supplier = await db.supplier.create({
             data: {
-                name,
+                title,
                 phone,
                 email,
                 address,

@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, History, LayoutGrid, Plus, Settings, Users } from 'lucide-react'
+import { AlignJustify, Bell, ChevronDown, History, LayoutGrid, Plus, Settings, Users } from 'lucide-react'
 import React from 'react'
 import SearchInput from './SearchInput'
 import Image from 'next/image'
@@ -7,15 +7,18 @@ export default function Header() {
   return (
     <div className='bg-gray-100 h-12 flex items-center justify-between px-8
     border-b border-slate-200'>
+      <button className='sm:hidden'>
+        <AlignJustify className='w-6 h-6'/>
+      </button>
       <div className='flex gap-3'>
         {/* Recent Activities */}
-        <button>
+        <button className='hidden sm:block'>
           <History className='w-6 h-6'/>
         </button>
         {/* Search */}
         <SearchInput />
       </div>
-      <div className='flex items-center gap-3'>
+      <div className='items-center gap-3 hidden sm:flex'>
         {/* Plus icon */}
         <div className="pr-2 border-r border-gray-300">
           <button className='p-1 rounded-lg bg-blue-600'>
@@ -48,6 +51,9 @@ export default function Header() {
         </div>
         {/*  */}
       </div>
+      <button className='sm:hidden'>
+            <Image src='/user.png' alt="user image"  width={496} height={516} className='rounded-full w-8 h-8 border border-slate-800'/>
+          </button>
     </div>
   )
 }

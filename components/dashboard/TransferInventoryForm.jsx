@@ -7,36 +7,7 @@ import { makePostRequest } from '@/lib/apiRequest'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-export default function TransferInventoryForm() {
-
-  const branches =[
-    {
-      label: "Branch A",
-      value: "brancha"
-    },
-    {
-      label: "Branch B",
-      value: "branchb"
-    },
-    {
-      label: "Branch C",
-      value: "branchc"
-    },
-  ]
-  const items =[
-    {
-      label: "Item A",
-      value: "itema"
-    },
-    {
-      label: "Item B",
-      value: "itemb"
-    },
-    {
-      label: "Item C",
-      value: "itemc"
-    },
-  ]
+export default function TransferInventoryForm({items, warehouses}) {
 
   const {
     register,
@@ -65,7 +36,6 @@ export default function TransferInventoryForm() {
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
        
         <TextInput 
-          type='number'
           label="Reference Number" 
           name="referenceNumber"
           register={register} 
@@ -94,7 +64,7 @@ export default function TransferInventoryForm() {
           label="Select the Warehouse that will give the Stock" 
           register={register} 
           className='w-full' 
-          options={branches}
+          options={warehouses}
        />
 
        <SelectInput 
@@ -102,7 +72,7 @@ export default function TransferInventoryForm() {
         label="Select the Warehouse that will receive the Stock" 
         register={register} 
         className='w-full' 
-        options={branches}
+        options={warehouses}
        />
 
         <TextareaInput 

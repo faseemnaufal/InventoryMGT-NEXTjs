@@ -1,5 +1,4 @@
 import { X } from 'lucide-react'
-import Link from 'next/link'
 import React from 'react'
 
 export default function FormHeader({title,href}) {
@@ -7,9 +6,9 @@ export default function FormHeader({title,href}) {
     <div className="flex items-center justify-between bg-white
       px-16 py-3">
         <h2 className='text-xl font-semibold'>{title}</h2>
-        <Link href={href}>
+        <a href={href}>
           <X />
-        </Link>
+        </a>
       </div>
   )
 }

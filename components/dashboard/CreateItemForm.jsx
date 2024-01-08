@@ -31,6 +31,7 @@ export default function CreateItemForm({categories,units,brands,warehouses,suppl
       "Item",
       reset
     )
+    setImageUrl("")
   }
 
   return (
@@ -42,8 +43,13 @@ export default function CreateItemForm({categories,units,brands,warehouses,suppl
             <TextInput label="Item Title" name="title"
             register={register} errors={errors} className='w-full'/>
 
-        <SelectInput name="categoryId" label="Select the Item Category" 
-        register={register} className='w-full' options={categories}/>
+        <SelectInput 
+          name="categoryId" 
+          label="Select the Item Category" 
+          register={register} 
+          className='w-full' 
+          options={categories}
+        />
 
         <TextInput label="Item SKU" name="sku"
             register={register} errors={errors} className='w-full'/>
