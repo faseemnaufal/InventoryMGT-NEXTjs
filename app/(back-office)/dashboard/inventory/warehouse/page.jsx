@@ -16,7 +16,8 @@ export default async function Warehouses() {
       />
       {/* Table */}
       <div className="my-4 p-8">
-        <DataTable data={warehouses} columns={columns}/>
+        <DataTable data={warehouses} columns={columns}
+        resourceTitle="warehouse"/>
       </div>
     </div>
   )

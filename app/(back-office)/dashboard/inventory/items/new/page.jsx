@@ -4,7 +4,7 @@ import FormHeader from '@/components/dashboard/FormHeader'
 import { getData } from '@/lib/getData'
 
 
-export default async function NewItem() {
+export default async function NewItem({initialData={}, isUpdate=false}) {
 
   //Sequential Fetching(const categories = await getData('categories'))=>waterfall
   const categoriesData = getData('categories')
@@ -28,10 +28,11 @@ export default async function NewItem() {
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Item" href="/dashboard/inventory/items"/>
+      title={isUpdate?"Update Item":"New Item"} href="/dashboard/inventory/items"/>
       {/* Form */}
       <CreateItemForm categories={categories} units={units}
-      brands={brands} warehouses={warehouses} suppliers={suppliers}/>
+      brands={brands} warehouses={warehouses} suppliers={suppliers}  initialData={initialData}
+      isUpdate={true}/>
     </div>
   )
 }

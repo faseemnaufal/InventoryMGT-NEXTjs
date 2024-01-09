@@ -1,42 +1,49 @@
 "use client"
 import SubmitButton from '@/components/FormInputs/SubmitButton'
 import TextInput from '@/components/FormInputs/TextInput'
-import TextareaInput from '@/components/FormInputs/TextareaInput'
 import FormHeader from '@/components/dashboard/FormHeader'
-import { makePostRequest } from '@/lib/apiRequest'
-import { Plus, X } from 'lucide-react'
-import Link from 'next/link'
+import { makePostRequest, makePutRequest } from '@/lib/apiRequest'
+import { redirect } from 'next/dist/server/api-utils'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 
-export default function NewBrand() {
+export default function NewBrand({initialData={}, isUpdate=false}) {
+
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: initialData,
+  })
 
   const [loading, setLoading] = useState(false)
 
+  function redirect(){
+    router.replace("/dashboard/inventory/brands")
+  }
+
   async function onSubmit(data){
     console.log(data)
-    makePostRequest(
-      setLoading,
-      "/api/brands",
-      data,
-      "Brand",
-      reset
-    )
+    if(isUpdate){
+      //update request
+      makePutRequest(setLoading, `/api/brands/${initialData.id}`, data, "Brand",
+      redirect,reset)
+    }else{
+      makePostRequest(setLoading, "/api/brands", data, "Brand",
+      reset)
+    }
   }
 
   return (
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Brand" href="/dashboard/inventory/brands"/>
+      title={isUpdate?"Update Brand":"New Brand"} href="/dashboard/inventory/brands"/>
       {/* Form */}
       <form 
         onSubmit={handleSubmit(onSubmit)} 
@@ -45,33 +52,9 @@ export default function NewBrand() {
        
         <TextInput label="Brand Title" name="title"
         register={register} errors={errors} className='w-full'/>
-{/* 
-<div className="sm:col-span-2">
-          <label
-            htmlFor="description"
-            className="block text-sm font-medium leading-6 text-gray-900"
-          >
-            Category Description
-          </label>
-          <div className="mt-2">
-            <textarea
-              {...register("description", { required: true })}
-              id="description"
-              name="description"
-              rows={3}
-              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              defaultValue={""}
-            />
-            {errors.title && (
-              <span className="text-sm text-red-600 ">
-                Category description is required
-              </span>
-            )}
-          </div>
-        </div> */}
        
         </div>
-        <SubmitButton isLoading={loading} title="Brand"/>
+        <SubmitButton isLoading={loading} title={isUpdate?"Updated Brand":"New Brand"}/>
       </form>
     </div>
   )

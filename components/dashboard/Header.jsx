@@ -2,23 +2,30 @@ import { AlignJustify, Bell, ChevronDown, History, LayoutGrid, Plus, Settings, U
 import React from 'react'
 import SearchInput from './SearchInput'
 import Image from 'next/image'
+import { set } from 'react-hook-form'
 
-export default function Header() {
+export default function Header({setShowSidebar}) {
+ 
+  function handleClick(){
+    console.log("Btn clicked")
+    
+  }
+
   return (
     <div className='bg-gray-100 h-12 flex items-center justify-between px-8
     border-b border-slate-200'>
-      <button className='sm:hidden'>
+      <button className='lg:hidden' onClick={()=>setShowSidebar(true)}>
         <AlignJustify className='w-6 h-6'/>
       </button>
       <div className='flex gap-3'>
         {/* Recent Activities */}
-        <button className='hidden sm:block'>
+        <button className='hidden lg:block'>
           <History className='w-6 h-6'/>
         </button>
         {/* Search */}
         <SearchInput />
       </div>
-      <div className='items-center gap-3 hidden sm:flex'>
+      <div className='items-center gap-3 hidden lg:flex'>
         {/* Plus icon */}
         <div className="pr-2 border-r border-gray-300">
           <button className='p-1 rounded-lg bg-blue-600'>
@@ -51,7 +58,7 @@ export default function Header() {
         </div>
         {/*  */}
       </div>
-      <button className='sm:hidden'>
+      <button className='lg:hidden'>
             <Image src='/user.png' alt="user image"  width={496} height={516} className='rounded-full w-8 h-8 border border-slate-800'/>
           </button>
     </div>

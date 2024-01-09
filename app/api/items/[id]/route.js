@@ -1,10 +1,36 @@
 import db from "@/lib/db"
 import { NextResponse } from "next/server"
 
-export async function POST(request){
+export async function GET(request, {params:{id}}){
+    try {
+        const item = await db.item.findUnique({
+            where: {
+                id
+            },
+            include: {
+                warehouse: true,
+            }
+        })
+        return NextResponse.json(item)
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({
+            error,
+            message: "Failed to Fetch the Item"
+        },{
+            status: 500
+        })
+        
+    }
+}
+
+export async function PUT(request, {params:{id}}){
     try {
         const itemData = await request.json()
-        const item = await db.item.create({
+        const item = await db.item.update({
+            where: {
+                id,
+            },
             data: {
                 title: itemData.title,
                 categoryId: itemData.categoryId,
@@ -24,38 +50,14 @@ export async function POST(request){
                 taxRate: parseFloat(itemData.taxRate),
                 description: itemData.description,
                 notes: itemData.notes,
-            }
+            },
         })
         return NextResponse.json(item)
     } catch (error) {
         console.log(error)
         return NextResponse.json({
             error,
-            message: "Failed to create Item"
-        },{
-            status: 500
-        })    
-    }
-}
-
-
-export async function GET(request){
-    try {
-        const items = await db.item.findMany({
-            orderBy: {
-                createdAt: 'desc' //latest Item
-            },
-            include: {
-                category: true, //returns all fields for all categories
-                supplier: true, //Returns all suppliers
-            },
-        })
-        return NextResponse.json(items)
-    } catch (error) {
-        console.log(error)
-        return NextResponse.json({
-            error,
-            message: "Failed to Fetch the Item"
+            message: "Failed to Update the Item"
         },{
             status: 500
         })

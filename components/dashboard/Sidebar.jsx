@@ -1,11 +1,12 @@
-import { BaggageClaim, BarChart4, Cable, ChevronLeft, Files, Home, PlusCircle, ShoppingBag, ShoppingBasket, ShoppingCart } from 'lucide-react'
+import { BaggageClaim, BarChart4, Cable, ChevronLeft, Files, Home, PlusCircle, ShoppingBag, ShoppingBasket, ShoppingCart, X } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import SubscriptionCard from './SubscriptionCard'
 import SidebarDropdownLink from './SidebarDropdownLink'
   
 
-export default function Sidebar() {
+export default function Sidebar({showSidebar, setShowSidebar}) {
+    console.log(showSidebar)
 
     const inventoryLinks=[
         {
@@ -81,14 +82,21 @@ export default function Sidebar() {
     ]
 
   return (
-    <div className='w-60 min-h-screen bg-slate-800 text-slate-50 justify-between fixed hidden sm:block'>
+    <div className={`${showSidebar ? 'w-60 min-h-screen bg-slate-800 text-slate-50 justify-between fixed lg:block z-50' : 
+    'w-60 min-h-screen bg-slate-800 text-slate-50 justify-between fixed hidden lg:block z-50'}`}>
         {/* Top Part */}
         <div className="flex flex-col">
             {/* logo */}
-            <Link href="#" className="flex space-x-2 items-center bg-slate-950 py-3 px-2">
+           <div className="flex justify-between">
+            <Link href="#" className="flex space-x-2 items-center bg-slate-950 py-3 px-2 w-full">
                 <ShoppingCart />
                 <span className='text-xl font-semibold'>Inventory</span>
             </Link>
+            <button className='px-3 py-4 bg-slate-950 lg:hidden'
+            onClick={()=>setShowSidebar(false)}>
+                <X className='h-6 w-6 text-white'/>
+            </button>
+           </div>
             {/* links */}
 
             <nav className='flex flex-col gap-3 px-3 py-6'>
@@ -99,8 +107,11 @@ export default function Sidebar() {
                 </Link>
 
                 <SidebarDropdownLink 
-                items={inventoryLinks} title="Inventory"
-                icon={BaggageClaim}/>    
+                items={inventoryLinks} 
+                title="Inventory"
+                icon={BaggageClaim}
+                setShowSidebar={setShowSidebar}
+                />    
 
                 <SidebarDropdownLink 
                 items={salesLinks} title="Sales"

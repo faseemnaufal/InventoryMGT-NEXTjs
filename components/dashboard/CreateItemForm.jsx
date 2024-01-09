@@ -4,34 +4,58 @@ import SelectInput from '@/components/FormInputs/SelectInput'
 import SubmitButton from '@/components/FormInputs/SubmitButton'
 import TextInput from '@/components/FormInputs/TextInput'
 import TextareaInput from '@/components/FormInputs/TextareaInput'
-import { makePostRequest } from '@/lib/apiRequest'
+import { makePostRequest, makePutRequest } from '@/lib/apiRequest'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-export default function CreateItemForm({categories,units,brands,warehouses,suppliers}) {
+export default function CreateItemForm({categories,units,
+  brands,warehouses,suppliers,initialData ={},isUpdate=false}) {
 
-  const [imageUrl, setImageUrl] = useState("")
+  const [imageUrl, setImageUrl] = useState(initialData.imageUrl)
+
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: initialData
+  })
 
   const [loading, setLoading] = useState(false)
+
+  function redirect(){
+    router.push("/dashboard/inventory/items")
+  }
 
   async function onSubmit(data){
     data.imageUrl=imageUrl
     console.log(data)
-    makePostRequest(
-      setLoading,
-      "/api/items",
-      data,
-      "Item",
-      reset
-    )
-    setImageUrl("")
+   
+    if(isUpdate){
+      makePutRequest(
+        setLoading,
+        `/api/items/${initialData.id}`,
+        data,
+        "Item",
+        redirect,
+        reset
+      )
+    }else{
+      makePostRequest(
+        setLoading,
+        "/api/items",
+        data,
+        "Item",
+        reset
+      )
+      setImageUrl("")
+    }
+
+    
   }
 
   return (
@@ -112,7 +136,7 @@ export default function CreateItemForm({categories,units,brands,warehouses,suppl
             />
 
         </div>
-        <SubmitButton isLoading={loading} title="Item"/>
+        <SubmitButton isLoading={loading} title={isUpdate?"Updated Item":"New Item"}/>
     </form>
   )
 }

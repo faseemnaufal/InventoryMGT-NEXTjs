@@ -1,42 +1,59 @@
 "use client"
 import SubmitButton from '@/components/FormInputs/SubmitButton'
 import TextInput from '@/components/FormInputs/TextInput'
-import TextareaInput from '@/components/FormInputs/TextareaInput'
 import FormHeader from '@/components/dashboard/FormHeader'
-import { makePostRequest } from '@/lib/apiRequest'
-import { Plus, X } from 'lucide-react'
-import Link from 'next/link'
+import { makePostRequest, makePutRequest } from '@/lib/apiRequest'
+import { redirect } from 'next/dist/server/api-utils'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 
-export default function NewUnit() {
-
+export default function NewUnit({initialData={}, isUpdate=false}) {
+//console.log(initialData)
+const router = useRouter()
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: initialData
+  })
 
   const [loading, setLoading] = useState(false)
 
+  function redirect(){
+    router.push("/dashboard/inventory/units")
+  }
+
   async function onSubmit(data){
     console.log(data)
-    makePostRequest(
-      setLoading,
-      "/api/units",
-      data,
-      "Units",
-      reset
-    )
+
+    if(isUpdate){
+      makePutRequest(
+        setLoading,
+        `/api/units/${initialData.id}`,
+        data,
+        "Unit",
+        redirect,
+        reset
+      )
+    }else{
+      makePostRequest(
+        setLoading,
+        "/api/units",
+        data,
+        "Units",
+        reset
+      )
+    }
   }
 
   return (
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Unit" href="/dashboard/inventory/units"/>
+      title={isUpdate?"Update Unit":"New Unit"} href="/dashboard/inventory/units"/>
       {/* Form */}
       <form 
         onSubmit={handleSubmit(onSubmit)} 
@@ -50,7 +67,7 @@ export default function NewUnit() {
         register={register} errors={errors} className='w-full'/>
        
         </div>
-        <SubmitButton isLoading={loading} title="Unit"/>
+        <SubmitButton isLoading={loading} title={isUpdate?"Updated Unit":"New Unit"}/>
       </form>
     </div>
   )

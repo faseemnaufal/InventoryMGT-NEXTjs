@@ -4,14 +4,14 @@ import SubmitButton from '@/components/FormInputs/SubmitButton'
 import TextInput from '@/components/FormInputs/TextInput'
 import TextareaInput from '@/components/FormInputs/TextareaInput'
 import FormHeader from '@/components/dashboard/FormHeader'
-import { makePostRequest } from '@/lib/apiRequest'
-import { Plus, X } from 'lucide-react'
-import Link from 'next/link'
+import { makePostRequest, makePutRequest } from '@/lib/apiRequest'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
 
-export default function NewWarehouse() {
+export default function NewWarehouse({initialData={}, isUpdate=false}) {
+  //console.log(initialData)
+  const router = useRouter()
 
   const selectOptions =[
     {
@@ -29,26 +29,44 @@ export default function NewWarehouse() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: initialData
+  })
 
   const [loading, setLoading] = useState(false)
 
+  function redirect(){
+    router.push("/dashboard/inventory/warehouse")
+  }
+
   async function onSubmit(data){
     console.log(data)
-    makePostRequest(
-      setLoading,
-      "/api/warehouse",
-      data,
-      "Warehouse",
-      reset
-    )
+
+    if(isUpdate){
+      makePutRequest(
+        setLoading,
+        `/api/warehouse/${initialData.id}`,
+        data,
+        "Warehouse",
+        redirect,
+        reset
+      )
+    }else{
+      makePostRequest(
+        setLoading,
+        "/api/warehouse",
+        data,
+        "Warehouse",
+        reset
+      )
+    }
   }
 
   return (
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Warehouse" href="/dashboard/inventory/warehouse"/>
+      title={isUpdate?"Update Warehouse":"New Warehouse"} href="/dashboard/inventory/warehouse"/>
       {/* Form */}
       <form 
         onSubmit={handleSubmit(onSubmit)} 
@@ -68,7 +86,7 @@ export default function NewWarehouse() {
         register={register} errors={errors}/>
        
         </div>
-        <SubmitButton isLoading={loading} title="Warehouse"/>
+        <SubmitButton isLoading={loading} title={isUpdate?"Updated Warehouse":"New Warehouse"}/>
       </form>
     </div>
   )

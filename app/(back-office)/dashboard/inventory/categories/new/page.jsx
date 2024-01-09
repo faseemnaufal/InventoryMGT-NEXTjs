@@ -3,38 +3,59 @@ import SubmitButton from '@/components/FormInputs/SubmitButton'
 import TextInput from '@/components/FormInputs/TextInput'
 import TextareaInput from '@/components/FormInputs/TextareaInput'
 import FormHeader from '@/components/dashboard/FormHeader'
-import { makePostRequest } from '@/lib/apiRequest'
+import { makePostRequest, makePutRequest } from '@/lib/apiRequest'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export default function NewCategory() {
+export default function NewCategory({initialData={}, isUpdate=false}) {
+
+  const router = useRouter()
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: initialData
+  })
 
   const [loading, setLoading] = useState(false)
 
+  function redirect(){
+    router.push("/dashboard/inventory/categories")
+  }
+
   async function onSubmit(data){
     console.log(data)
-    makePostRequest(
-      setLoading,
-      "/api/categories",
-      data,
-      "Category",
-      reset
-    )
+    
+    if(isUpdate){
+      makePutRequest(
+        setLoading,
+        `/api/categories/${initialData.id}`,
+        data,
+        "Category",
+        redirect,
+        reset
+      )
+    }else{
+      makePostRequest(
+        setLoading,
+        "/api/categories",
+        data,
+        "Category",
+        reset
+      )
+    }
   }
 
   return (
     <div>
       {/* Header */}
       <FormHeader 
-      title="New Category" href="/dashboard/inventory/categories"/>
+      title={isUpdate?"Update Category":"New Category"} href="/dashboard/inventory/categories"/>
       {/* Form */}
       <form 
         onSubmit={handleSubmit(onSubmit)} 
@@ -48,7 +69,7 @@ export default function NewCategory() {
         register={register} errors={errors}/>
        
         </div>
-        <SubmitButton isLoading={loading} title="Category"/>
+        <SubmitButton isLoading={loading} title={isUpdate?"Update Category":"New Category"} />
       </form>
     </div>
   )
