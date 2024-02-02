@@ -1,38 +1,12 @@
-
-import CreateItemForm from '@/components/dashboard/CreateItemForm'
-import FormHeader from '@/components/dashboard/FormHeader'
+import React from 'react'
 import { getData } from '@/lib/getData'
+import NewItem from '@/components/dashboard/NewItem'
 
 
-export default async function NewItem({initialData={}, isUpdate=false}) {
-
-  //Sequential Fetching(const categories = await getData('categories'))=>waterfall
-  const categoriesData = getData('categories')
-  const unitsData = getData('units')
-  const brandsData = getData('brands')
-  const warehousesData = getData('warehouse')
-  const suppliersData = getData('suppliers')
-
-  //Parallel fetching
-  // Wait for the promises to resolve
-  const [categories, units, brands, warehouses, suppliers] = await 
-  Promise.all([
-    categoriesData, 
-    unitsData, 
-    brandsData, 
-    warehousesData, 
-    suppliersData])
-   
-
+export default async function Page() {
+  const data = {}
+  //console.log(data)
   return (
-    <div>
-      {/* Header */}
-      <FormHeader 
-      title={isUpdate?"Update Item":"New Item"} href="/dashboard/inventory/items"/>
-      {/* Form */}
-      <CreateItemForm categories={categories} units={units}
-      brands={brands} warehouses={warehouses} suppliers={suppliers}  initialData={initialData}
-      isUpdate={true}/>
-    </div>
+    <NewItem initialData={data} isUpdate={false}/>
   )
 }
