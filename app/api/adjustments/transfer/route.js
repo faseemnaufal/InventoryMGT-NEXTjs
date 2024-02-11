@@ -47,3 +47,23 @@ export async function GET(request){
         
     }
 }
+
+export async function DELETE(request){
+    try {
+        const id= request.nextUrl.searchParams.get("id")
+        const deletedAdjustment = await db.transferStockAdjustment.delete({
+            where: {
+                id 
+            },
+        })
+        return NextResponse.json(deletedAdjustment)
+    } catch (error) {
+        console.log(error)
+        return NextResponse.json({
+            error,
+            message: "Failed to Delete the Adjustment"
+        },{
+            status: 500
+        })
+    }
+}
