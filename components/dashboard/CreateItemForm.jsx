@@ -78,13 +78,13 @@ export default function CreateItemForm({categories,units,
         <TextInput label="Item SKU" name="sku"
             register={register} errors={errors} className='w-full'/>
 
-            <TextInput 
+            {/* <TextInput 
             label="Warehouse Location" 
             name="location"
             register={register} 
             errors={errors} 
             className='w-full'
-            />
+            /> */}
 
             <TextInput label="Item Barcode" name="barcode"
             register={register} errors={errors} className='w-full'/>

@@ -10,8 +10,8 @@ export default async function Adjustments() {
   const [addAdjustments, transferAdjustments] = 
   await Promise.all([addAdjustmentsData, transferAdjustmentsData])
 
-  const addColumns = ["referenceNumber", "addStockQty"]
-  const transferColumns = ["referenceNumber", "transferStockQty"]
+  const addColumns = ["referenceNumber", "addStockQty", "createdAt"]
+  const transferColumns = ["referenceNumber", "transferStockQty", "createdAt"]
   return (
     <div>
       {/* Header */}

@@ -7,7 +7,7 @@ import { makePostRequest } from '@/lib/apiRequest'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-export default function AddInventoryForm({items,warehouses}) {
+export default function AddInventoryForm({items,warehouses,suppliers}) {
 
 
   const {
@@ -41,7 +41,7 @@ export default function AddInventoryForm({items,warehouses}) {
           name="referenceNumber"
           register={register} 
           errors={errors}
-          className='w-full'
+          
         />
 
       <SelectInput 
@@ -50,6 +50,14 @@ export default function AddInventoryForm({items,warehouses}) {
         register={register} 
         className='w-full' 
         options={items}
+       />
+
+       <SelectInput 
+        name="supplierId" 
+        label="Select the Supplier" 
+        register={register} 
+        className='w-full' 
+        options={suppliers}
        />
 
         <TextInput 

@@ -55,6 +55,9 @@ export async function DELETE(request){
             where: {
                 id 
             },
+            include:{
+                item:true,
+            }
         })
         return NextResponse.json(deletedWarehouse)
     } catch (error) {

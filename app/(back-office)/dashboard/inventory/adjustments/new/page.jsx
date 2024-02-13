@@ -6,10 +6,13 @@ export default async function NewAdjustments() {
 
   const itemsData = getData("items")
   const warehousesData = getData("warehouse")
+  const suppliersData = getData("suppliers")
 
-  const [items, warehouses] = await Promise.all([itemsData, warehousesData])
+  const [items, warehouses, suppliers] = await Promise.all([
+    itemsData, warehousesData, suppliersData
+  ])
 
   return (
-    <AdjustmentForm items={items} warehouses={warehouses}/>
+    <AdjustmentForm items={items} suppliers={suppliers} warehouses={warehouses}/>
   )
 }
