@@ -1,11 +1,38 @@
+"use client"
 import { AlignJustify, Bell, ChevronDown, History, LayoutGrid, Plus, Settings, Users } from 'lucide-react'
 import React from 'react'
 import SearchInput from './SearchInput'
 import Image from 'next/image'
-import { set } from 'react-hook-form'
+import { signOut, useSession } from 'next-auth/react'
+//import { useRouter } from 'next/navigation'
+import { generateInitials } from '@/lib/generateinitials'
+import Login from '@/app/login/page'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
 
 export default function Header({setShowSidebar}) {
- 
+
+  const {data:session,status} = useSession()
+  //const router = useRouter()
+
+  if(status ==='loading'){
+    return <p>Loading User...</p>
+  }
+  if(status ==='unauthenticated'){
+    //router.push('/login')
+    return <Login />
+  }
+
+  const username = session?.user?.name.split(' ')[0] ?? ""
+  const initials = generateInitials(session?.user?.name)
+  
   function handleClick(){
     console.log("Btn clicked")
     
@@ -45,12 +72,40 @@ export default function Header({setShowSidebar}) {
         </div>
         {/*  */}
         <div className="flex gap-3">
-          <button className='flex items-center'>
-            <span>Faseem</span>
-            <ChevronDown className='w-4 h-4'/>
-          </button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <button className='flex items-center'>
+              <span>{username}</span>
+              <ChevronDown className='w-4 h-4'/>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <button onClick={()=>signOut()}>Logout</button>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+
           <button>
-            <Image src='/user.png' alt="user image"  width={496} height={516} className='rounded-full w-8 h-8 border border-slate-800'/>
+            {session.user?.image?(
+              <Image 
+                src={session.user?.image} 
+                alt="user image"  
+                width={496} height={516} 
+                className='rounded-full w-8 h-8 border border-slate-800'
+              />
+            ):(
+              <div className='rounded-full w-8 h-8 border border-slate-800 bg-white'>
+                {initials}
+              </div>
+            )}
           </button>
           <button>
             <LayoutGrid className='w-6 h-6 text-slate-900'/>
